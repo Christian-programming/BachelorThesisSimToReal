@@ -30,7 +30,6 @@ class FrameStack(Wrapper):
         Args:
              param1(np.array): action
         Return: next_state, reward, done, info
-
         """
         observation, reward, done, info = self.env.step(action)
         observation = cv2.resize(observation, (self.size, self.size))
@@ -64,11 +63,9 @@ def mkdir(base, name):
 
 def write_into_file(pathname, text):
     """ creates new textfile in pathname with text
-
     Args:
        param1(string): pathname
        param2(string): text
-
     """
     with open(pathname+".txt", "a") as myfile:
         myfile.write(text)
