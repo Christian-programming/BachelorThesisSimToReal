@@ -10,8 +10,14 @@ import numpy as np
 class ReplayBuffer(object):
     """Buffer to store environment transitions."""
     def __init__(self, obs_shape, action_shape, capacity, image_pad, device):
-        """
+        """ Create a replay buffer for images with data augmentation
 
+        Args:
+            param1(tuple): shape of images to save
+            param2(tuple): shape of actions to save
+            param3(int): amount of traj to save
+            param4(int): amount of pixel for random shifts
+            param5(str): device used
 
         """
         self.capacity = capacity
@@ -32,8 +38,14 @@ class ReplayBuffer(object):
         return self.capacity if self.full else self.idx
 
     def add(self, obs, action, reward, next_obs, done, done_no_max):
-        """
-
+        """ Add traj to the memory
+        Args:
+            param1(numpy array): obs images to save
+            param2(numpy array): action actions to save
+            param3(int):  reward reward to save
+            param4(numpy array): next_obs images of the next_state
+            param5(bool): done signal
+            param5(bool): done_no_max signal
         """
         np.copyto(self.obses[self.idx], obs)
         np.copyto(self.actions[self.idx], action)
@@ -45,8 +57,12 @@ class ReplayBuffer(object):
         self.full = self.full or self.idx == 0
 
     def sample(self, batch_size):
-        """
+        """ sample uniformly from memory return amount of batch_size
+            Return 2 augmentated states and next state
+        Args:
+            param1(int): batch_size
 
+        Return
         """
         idxs = np.random.randint(0, self.capacity if self.full else self.idx, size=batch_size)
         obses = self.obses[idxs]
@@ -92,6 +108,12 @@ class ReplayBuffer(object):
         with open(filename + '/not_dones_no_max.npy', 'wb') as f:
             np.save(f, self.not_dones_no_max)
 
+        with open(filename + '/index.txt', 'w') as f:
+            f.write("{}".format(self.idx))
+
+
+        print("Save memory of size {} to filename {} ".format(self.idx, filename))
+
     def load_memory(self, filename):
         """
         Use numpy load function to store the data in a given file
@@ -113,3 +135,9 @@ class ReplayBuffer(object):
 
         with open(filename + '/not_dones_no_max.npy', 'rb') as f:
             self.not_dones_no_max = np.load(f)
+
+        with open(filename + '/index.txt', 'r') as f:
+            self.idx = int(f.read())
+
+
+        print("Load memory of size {} from filename {} ".format(self.idx, filename))
