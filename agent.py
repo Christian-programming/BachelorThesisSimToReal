@@ -3,7 +3,7 @@ import sys
 import torch
 import copy
 import numpy as np
-from tqc_models import Actor, Critic, Encoder, quantile_huber_loss_f
+from tqc_models import Actor, Critic, Encoder
 import torch.nn as nn
 import torch.nn.functional as F
 from helper import mkdir
