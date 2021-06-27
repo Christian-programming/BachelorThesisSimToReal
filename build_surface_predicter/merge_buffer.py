@@ -24,7 +24,7 @@ def main(args):
             (size, size), (size, size, 3), (size, size, 3), int(args.buffer_size_new), args.device)
     for i in range(memory_real.idx):
         print(memory_simreal.idx)
-        memory_simreal.depth[memory_real.idx] = memory_real.depth[i]
+        memory_simreal.depth[memory_simreal.idx] = memory_real.depth[i]
         memory_simreal.normals[memory_simreal.idx] = memory_real.normals[i]
         memory_simreal.obses[memory_simreal.idx] = memory_real.obses[i]
         memory_simreal.idx += 1
